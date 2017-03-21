@@ -1,0 +1,34 @@
+SELECT COUNT( t.active ) AS maxi, ty.name
+FROM tour t, operator op, 
+TYPE ty, tour_type tt
+WHERE t.active = op.active
+AND op.active =1
+AND t.active =1
+AND tt.tour_id = t.id
+AND tt.type_id = ty.id
+GROUP BY ty.name
+ORDER BY maxi DESC 
+LIMIT 0 , 3
+------------------------------------------------------------------
+SELECT COUNT( td.active ) AS total_dept, op.name
+FROM tour_departure td, operator op, tour t
+WHERE td.active =1
+AND (
+td.date
+BETWEEN NOW( ) 
+AND NOW( ) + INTERVAL 1 
+MONTH
+)
+AND t.id = td.tour_id
+AND t.operator_id = op.id
+GROUP BY op.name
+------------------------------------------------------------------
+SELECT COUNT( t.active ) AS tot, t.name, td.price,ty.name
+FROM tour_departure td, tour t, tour_type tt, 
+type ty
+WHERE td.tour_id = t.id
+AND tt.type_id = ty.id
+AND tt.tour_id = t.id
+AND td.price >3000
+GROUP BY t.name
+ORDER BY tot DESC 
